@@ -1,0 +1,56 @@
+---
+- hosts: test0
+  remote_user: root
+  tasks:
+   - name: test connection
+     ping:
+
+   - name: disable firewalld service on system start up
+     systemd:
+       name: firewalld
+       enabled: no
+
+   - name: stop firewalld service
+     systemd:
+       name: firewalld
+       state: stopped
+
+   - name: mc,nano,iptables-services,docker
+     yum:
+       name: mc,nano,iptables-services,docker
+       state: latest
+
+   - name: enable iptables service on system start up
+     systemd:
+       name: iptables
+       enabled: yes
+
+   - name: enable ip6tables service on system start up
+     systemd:
+       name: ip6tables
+       enabled: yes
+
+   - name: start iptables service
+     systemd:
+       name: iptables
+       state: started
+
+   - name: start ip6tables service
+     systemd:
+       name: ip6tables
+       state: started
+
+   - name: enable docker service on system start up
+     systemd:
+       name: docker
+       enabled: yes
+
+   - name: start docker service
+     systemd:
+       name: docker
+       state: started
+
+   - name: build a docker image
+     docker_image:
+       name: saburovga/skyeng
+       state: present
