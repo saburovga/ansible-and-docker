@@ -15,10 +15,10 @@
        name: firewalld
        state: stopped
 
-   - name: mc,nano,iptables-services,docker
-     yum:
-       name: mc,nano,iptables-services,docker
-       state: latest
+#   - name: mc,nano,iptables-services,docker
+#     yum:
+#       name: mc,nano,iptables-services,docker,python-docker-py
+#       state: latest
 
    - name: enable iptables service on system start up
      systemd:
@@ -52,5 +52,6 @@
 
    - name: build a docker image
      docker_image:
+       path: .
        name: saburovga/skyeng
        state: present
