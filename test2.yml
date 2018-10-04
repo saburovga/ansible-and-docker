@@ -60,6 +60,8 @@
      with_items:
        - Dockerfile
        - start.sh
+       - resources.sh
+
    - name: build a docker image
      docker_image:
        path: /tmp/skyeng
