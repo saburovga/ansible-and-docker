@@ -52,12 +52,14 @@
 
    - name: copy Dockerfile
      copy:
-       src: Dockerfile
+       src: "{{ item }}"
        dest: /tmp/skyeng/
        owner: root
        group: root
        mode: 0644
-
+     with_items:
+       - Dockerfile
+       - start.sh
    - name: build a docker image
      docker_image:
        path: /tmp/skyeng
