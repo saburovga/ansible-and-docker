@@ -18,8 +18,6 @@
        name: "{{item}}"
        state: latest
      with_items:
-       - mc
-       - nano
        - iptables-services
        - docker
        - python-docker-py
