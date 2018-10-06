@@ -15,44 +15,38 @@
        name: firewalld
        state: stopped
 
-#   - name: mc,nano,iptables-services,docker
-#     yum:
-#       name: mc,nano,iptables-services,docker,python-docker-py
-#       state: latest
+   - name: installing set of packages
+     yum:
+       name: "{{item}}"
+       state: latest
+     with_items:
+       - mc
+       - nano
+       - iptables-services
+       - docker
+       - python-docker-py
 
-   - name: enable iptables service on system start up
+   - name: enable services on system start up
      systemd:
-       name: iptables
+       name: "{{item}}"
        enabled: yes
+     with_items:
+       - iptables
+       - ip6tables
+       - docker
 
-   - name: enable ip6tables service on system start up
+   - name: start services
      systemd:
-       name: ip6tables
-       enabled: yes
-
-   - name: start iptables service
-     systemd:
-       name: iptables
+       name: "{{item}}"
        state: started
-
-   - name: start ip6tables service
-     systemd:
-       name: ip6tables
-       state: started
-
-   - name: enable docker service on system start up
-     systemd:
-       name: docker
-       enabled: yes
-
-   - name: start docker service
-     systemd:
-       name: docker
-       state: started
+     with_items:
+       - iptables
+       - ip6tables
+       - docker
 
    - name: copy Dockerfile
      copy:
-       src: "{{ item }}"
+       src: "{{item}}"
        dest: /tmp/skyeng/
        owner: root
        group: root
