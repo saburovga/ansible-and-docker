@@ -1,0 +1,26 @@
+   - name: copy Dockerfile
+     copy:
+       src: "{{item}}"
+       dest: /tmp/skyeng/
+       owner: root
+       group: root
+       mode: 0644
+     with_items:
+       - Dockerfile
+       - start.sh
+       - resources.sh
+
+   - name: build a docker image
+     docker_image:
+       path: /tmp/skyeng
+       name: saburovga/skyeng
+       state: present
+       force: no
+
+   - name: Start a container
+     docker_container:
+       name: skyeng
+       image: saburovga/skyeng
+       published_ports:
+        - "8080:80"
+        - "2222:22"

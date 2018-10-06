@@ -1,7 +1,8 @@
 ---
 - hosts: test0
   remote_user: root
-  tasks:
+
+  pre_tasks:
    - name: test connection
      ping:
 
@@ -15,16 +16,16 @@
        name: firewalld
        state: stopped
 
-   - name: installing set of packages
-     yum:
-       name: "{{item}}"
-       state: latest
-     with_items:
-       - mc
-       - nano
-       - iptables-services
-       - docker
-       - python-docker-py
+#   - name: installing set of packages
+#     yum:
+#       name: "{{item}}"
+#       state: latest
+#     with_items:
+#       - mc
+#       - nano
+#       - iptables-services
+#       - docker
+#       - python-docker-py
 
    - name: enable services on system start up
      systemd:
@@ -44,29 +45,5 @@
        - ip6tables
        - docker
 
-   - name: copy Dockerfile
-     copy:
-       src: "{{item}}"
-       dest: /tmp/skyeng/
-       owner: root
-       group: root
-       mode: 0644
-     with_items:
-       - Dockerfile
-       - start.sh
-       - resources.sh
-
-   - name: build a docker image
-     docker_image:
-       path: /tmp/skyeng
-       name: saburovga/skyeng
-       state: present
-       force: no
-
-   - name: Start a container
-     docker_container:
-       name: skyeng
-       image: saburovga/skyeng
-       published_ports: 
-        - "8080:80" 
-        - "2222:22"
+  roles:
+    - {role: docker}
