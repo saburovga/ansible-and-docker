@@ -3,9 +3,6 @@
   remote_user: root
 
   pre_tasks:
-   - name: test connection
-     ping:
-
    - name: disable firewalld service on system start up
      systemd:
        name: firewalld
@@ -16,16 +13,16 @@
        name: firewalld
        state: stopped
 
-#   - name: installing set of packages
-#     yum:
-#       name: "{{item}}"
-#       state: latest
-#     with_items:
-#       - mc
-#       - nano
-#       - iptables-services
-#       - docker
-#       - python-docker-py
+   - name: installing set of packages
+     yum:
+       name: "{{item}}"
+       state: latest
+     with_items:
+       - mc
+       - nano
+       - iptables-services
+       - docker
+       - python-docker-py
 
    - name: enable services on system start up
      systemd:
