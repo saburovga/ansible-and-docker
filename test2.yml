@@ -67,4 +67,12 @@
        path: /tmp/skyeng
        name: saburovga/skyeng
        state: present
-       force: yes
+       force: no
+
+   - name: Start a container
+     docker_container:
+       name: skyeng
+       image: saburovga/skyeng
+       published_ports: 
+        - "8080:80" 
+        - "2222:22"
